@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GeraNota - Teste</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2563eb;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: 0;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 6px;
+            overflow: auto;
+            max-height: 500px;
+            font-size: 12px;
+        }
+
+        .ok {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .err {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GeraNota - Teste rápido</h1>
+    <p>Esse arquivo testa se o backend está respondendo e gerando XML.</p>
+
+    <div class="row">
+        <button onclick="testHealth()">1. Testar servidor (health)</button>
+        <button onclick="testGerar()">2. Gerar XML de teste</button>
+    </div>
+
+    <h3>Resultado:</h3>
+    <div id="status"></div>
+    <pre id="out">Clique nos botões acima.</pre>
+
+    <script>
+        const API = "http://localhost:3333/api/v1";
+        const out = document.getElementById("out");
+        const status = document.getElementById("status");
+
+        async function testHealth() {
+            status.innerHTML = "Chamando...";
+            try {
+                const r = await fetch(`${API}/health`);
+                const j = await r.json();
+                status.innerHTML = `<span class="ok">OK ${r.status}</span>`;
+                out.textContent = JSON.stringify(j, null, 2);
+            } catch (e) {
+                status.innerHTML = `<span class="err">ERRO</span>`;
+                out.textContent = e.message;
+            }
+        }
+
+        async function testGerar() {
+            status.innerHTML = "Gerando...";
+            const payload = {
+                modo: "manual",
+                loja: 3,
+                numeroNfe: "100001",
+                codigoNumeroChave: "12345678",
+                serie: "1",
+                emitente: {
+                    CNPJ: "16619378001694",
+                    xNome: "FORNECEDOR TESTE LTDA",
+                    IE: "196991617",
+                    CRT: 3,
+                    enderEmit: {
+                        xLgr: "AV TESTE",
+                        nro: "100",
+                        xBairro: "CENTRO",
+                        cMun: 2211001,
+                        xMun: "TERESINA",
+                        UF: "PI",
+                        CEP: 64000000
+                    }
+                },
+                produtos: [
+                    {
+                        xProd: "DIPIRONA 500MG COMP",
+                        cEAN: "7891234567890",
+                        NCM: "30049069",
+                        CFOP: "5403",
+                        uCom: "UN",
+                        qCom: 10,
+                        vUnCom: 2.5
+                    },
+                    {
+                        xProd: "SHAMPOO ANTICASPA 200ML",
+                        NCM: "33051000",
+                        uCom: "UN",
+                        qCom: 6,
+                        vUnCom: 18.9
+                    }
+                ]
+            };
+
+            try {
+                const r = await fetch(`${API}/gerar-nota`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                const j = await r.json();
+                status.innerHTML = r.ok
+                    ? `<span class="ok">OK ${r.status} — chave ${j.chave}</span>`
+                    : `<span class="err">ERRO ${r.status}</span>`;
+                out.textContent = JSON.stringify(j, null, 2);
+            } catch (e) {
+                status.innerHTML = `<span class="err">ERRO de conexão</span>`;
+                out.textContent = e.message;
+            }
+        }
+    </script>
+</body>
+
+</html>

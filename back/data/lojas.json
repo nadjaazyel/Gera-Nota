@@ -1,0 +1,103 @@
+[
+  {
+    "id": 1,
+    "CNPJ": "11145418000103",
+    "xNome": "J R R DA SILVA",
+    "enderDest": {
+      "xLgr": "RUA AV CORONEL BENEDITO DA LUZ",
+      "nro": "1385",
+      "xBairro": "CENTRO",
+      "cMun": 2201408,
+      "xMun": "BARRO DURO",
+      "UF": "PI",
+      "CEP": 64455000,
+      "cPais": 1058,
+      "xPais": "BRASIL",
+      "fone": "8632841458"
+    },
+    "indIEDest": 1,
+    "IE": "194710866",
+    "email": "farmaciaelbethel@hotmail.com.br"
+  },
+  {
+    "id": 2,
+    "CNPJ": "30043770000182",
+    "xNome": "N S RODRIGUES SILVA",
+    "enderDest": {
+      "xLgr": "RUA AV COSTA E SILVA",
+      "nro": "406",
+      "xBairro": "CENTRO",
+      "cMun": 2207751,
+      "xMun": "PASSAGEM FRANCA",
+      "UF": "PI",
+      "CEP": 64395000,
+      "cPais": 1058,
+      "xPais": "BRASIL",
+      "fone": "8699479005"
+    },
+    "indIEDest": 1,
+    "IE": "196188571",
+    "email": "farmaciabethel@hotmail.com"
+  },
+  {
+    "id": 3,
+    "CNPJ": "32227959000150",
+    "xNome": "NADJAAZYEL SOARES RODRIGUES",
+    "enderDest": {
+      "xLgr": "RUA TRES DE MAIO",
+      "nro": "SN",
+      "xCpl": "CASA PONTO",
+      "xBairro": "CENTRO",
+      "cMun": 2209609,
+      "xMun": "SAO FELIX DO PIAUI",
+      "UF": "PI",
+      "CEP": 64375000,
+      "cPais": 1058,
+      "xPais": "BRASIL",
+      "fone": "8699652546"
+    },
+    "indIEDest": 1,
+    "IE": "196337518",
+    "email": "farmaciabethel@hotmail.com"
+  },
+  {
+    "id": 4,
+    "CNPJ": "32227959000231",
+    "xNome": "NADJAAZYEL SOARES DROGUES_Filial",
+    "enderDest": {
+      "xLgr": "Av Julio Teixeira",
+      "nro": "341",
+      "xBairro": "Centro",
+      "cMun": 2210383,
+      "xMun": "Sao Miguel Da Baixa Grande",
+      "UF": "PI",
+      "CEP": 64378000,
+      "cPais": 1058,
+      "xPais": "Brasil",
+      "fone": "86998092215"
+    },
+    "indIEDest": 1,
+    "IE": "196754119",
+    "email": "farmaciabethel@hotmail.com"
+  },
+  {
+    "id": 5,
+    "CNPJ": "01519477000140",
+    "xNome": "J P SOARES VIANA",
+    "enderDest": {
+      "xLgr": "Rua 31 de Marco",
+      "nro": "2680",
+      "xBairro": "Planalto Ininga",
+      "cMun": 2211001,
+      "xMun": "Teresina",
+      "UF": "PI",
+      "CEP": 64049700,
+      "cPais": 1058,
+      "xPais": "Brasil",
+      "fone": "86998092215"
+    },
+    "indIEDest": 1,
+    "IE": "196754119",
+    "email": "drogariabethel6@gmail.com"
+  }
+]

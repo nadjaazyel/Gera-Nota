@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeraNota — Entrada de Mercadoria</title>
+    <meta name="description" content="Gera XML de NF-e modelo 55 para entrada de mercadoria sem nota fiscal.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>[x-cloak]{display:none!important}</style>
+</head>
+<body>
+
+<div x-data="app()" x-init="init()" x-cloak>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-brand">⚡ GeraNota</div>
+        <button class="nav-tab" :class="pagina==='gerar'&&'active'" @click="pagina='gerar'">📄 Gerar NF-e</button>
+        <button class="nav-tab" :class="pagina==='fornecedores'&&'active'" @click="pagina='fornecedores';carregarFornecedores()">🏭 Fornecedores</button>
+        <button class="nav-tab" :class="pagina==='lojas'&&'active'" @click="pagina='lojas';carregarLojas()">🏪 Lojas</button>
+        <button class="nav-tab" :class="pagina==='ean'&&'active'" @click="pagina='ean'">🏷️ EAN-NCM</button>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PÁGINA: GERAR NF-e                                      -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div x-show="pagina==='gerar'" class="page">
+
+        <!-- 1. Loja destino -->
+        <div class="card">
+            <div class="card-title">🏪 1. Para qual loja é a entrada?</div>
+            <div class="grid-4" style="flex-wrap:wrap">
+                <template x-for="op in lojas" :key="op.id">
+                    <button type="button" class="loja-btn" :class="loja===op.id&&'selected'" @click="loja=op.id">
+                        <div class="loja-id" x-text="'ID ' + op.id"></div>
+                        <div class="loja-nome" x-text="op.xNome"></div>
+                        <div class="loja-cidade" x-text="(op.enderDest?.xMun||'') + ' - ' + (op.enderDest?.UF||'')"></div>
+                    </button>
+                </template>
+                <div x-show="!lojas.length" class="empty"><div class="empty-icon">🏪</div>Nenhuma loja cadastrada.</div>
+            </div>
+        </div>
+
+        <!-- 2. Fornecedor -->
+        <div class="card">
+            <div class="card-title">🏭 2. Quem vendeu para você?</div>
+            <div class="grid-3" style="align-items:end">
+                <!-- CNPJ + autocomplete -->
+                <div class="autocomplete-wrap">
+                    <label>CNPJ do fornecedor *</label>
+                    <input type="text" x-model="emit.CNPJ" @input="buscarFornecedorPorCNPJ()" @blur="setTimeout(()=>acAberto=false,200)"
+                        placeholder="14 dígitos" maxlength="14" id="inp-cnpj">
+                    <div class="autocomplete-list" x-show="acAberto">
+                        <template x-for="f in acSugestoes" :key="f.id">
+                            <div class="autocomplete-item" @mousedown="preencherFornecedor(f)">
+                                <div x-text="f.xNome"></div>
+                                <div class="ac-cnpj" x-text="f.CNPJ"></div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div style="grid-column:span 2">
+                    <label>Razão Social *</label>
+                    <input type="text" x-model="emit.xNome" placeholder="FORNECEDOR LTDA" id="inp-xnome">
+                </div>
+                <div>
+                    <label>Inscrição Estadual</label>
+                    <input type="text" x-model="emit.IE" placeholder="000000000">
+                </div>
+                <div>
+                    <label>Cidade</label>
+                    <input type="text" x-model="emit.enderEmit.xMun" placeholder="Teresina">
+                </div>
+                <div>
+                    <label>UF</label>
+                    <input type="text" x-model="emit.enderEmit.UF" maxlength="2" placeholder="PI">
+                </div>
+            </div>
+            <p class="alert alert-info" style="margin-top:.75rem;font-size:.75rem">
+                💡 O fornecedor é salvo automaticamente ao gerar a nota. Você pode gerenciá-los na aba <b>Fornecedores</b>.
+            </p>
+        </div>
+
+        <!-- 3. Numeração -->
+        <div class="card">
+            <div class="card-title">🔢 3. Numeração da nota</div>
+            <div class="grid-3">
+                <div>
+                    <label>Número *</label>
+                    <input type="text" x-model="numeroNfe" placeholder="100001" id="inp-numero">
+                </div>
+                <div>
+                    <label>Série</label>
+                    <input type="text" x-model="serie" placeholder="1">
+                </div>
+                <div>
+                    <label>Código aleatório (cNF)</label>
+                    <div style="display:flex;gap:.5rem">
+                        <input type="text" x-model="codigoNumeroChave" maxlength="8">
+                        <button type="button" class="btn btn-ghost" @click="gerarCNF()" title="Gerar novo">↻</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Produtos -->
+        <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+                <div class="card-title" style="margin:0">
+                    📦 4. Produtos
+                    <span class="badge badge-blue" x-text="produtos.length + ' item(s)'"></span>
+                </div>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                    <label class="btn btn-primary btn-sm" style="cursor:pointer;margin:0">
+                        📂 Importar Arquivo HTML
+                        <input type="file" accept=".html,.htm" style="display:none" @change="carregarArquivoHtml($event)" id="inp-arquivo-html">
+                    </label>
+                    <button type="button" class="btn btn-success btn-sm" @click="addProduto()">+ Inserir Manual</button>
+                </div>
+            </div>
+
+            <div x-show="extracaoMsg" x-text="extracaoMsg" :class="extracaoOk?'alert-success':'alert-error'" class="alert" style="margin-bottom:1rem"></div>
+
+            <div x-show="!produtos.length" class="empty">
+                <div class="empty-icon">📦</div>
+                Nenhum produto.<br>
+                <small style="color:#64748b">Importe o arquivo salvo da SEFAZ (Ctrl+S) ou insira manualmente.</small>
+            </div>
+
+            <div x-show="produtos.length" style="overflow-x:auto">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Cód. Forn</th><th>Descrição *</th><th>EAN</th><th>NCM *</th>
+                            <th>CFOP</th><th>Un.</th><th style="text-align:right">Qtd *</th>
+                            <th style="text-align:right">Vl.Un *</th><th style="text-align:right">Total</th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="(p,i) in produtos" :key="i">
+                            <tr>
+                                <td x-text="i+1" style="color:#94a3b8"></td>
+                                <td><input type="text" x-model="p.cProd" style="font-family:monospace;font-size:.75rem" placeholder="Cód"></td>
+                                <td><input type="text" x-model="p.xProd" placeholder="Descrição do produto"></td>
+                                <td><input type="text" x-model="p.cEAN" style="font-family:monospace;font-size:.75rem" placeholder="SEM GTIN"></td>
+                                <td><input type="text" x-model="p.NCM" maxlength="8" style="font-family:monospace;font-size:.75rem" placeholder="00000000"></td>
+                                <td><input type="text" x-model="p.CFOP" maxlength="4" style="font-family:monospace;font-size:.75rem" placeholder="5102"></td>
+                                <td><input type="text" x-model="p.uCom" maxlength="6" placeholder="UN"></td>
+                                <td><input type="number" step="0.0001" x-model.number="p.qCom" style="text-align:right"></td>
+                                <td><input type="number" step="0.01" x-model.number="p.vUnCom" style="text-align:right"></td>
+                                <td style="text-align:right;font-weight:600" x-text="formatBRL(p.qCom*p.vUnCom)"></td>
+                                <td><button type="button" @click="removeProduto(i)" style="color:#ef4444;background:none;border:none;cursor:pointer;font-size:1rem">✕</button></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9" style="text-align:right;padding:.6rem">Total geral:</td>
+                            <td style="text-align:right;color:#1d4ed8;padding:.6rem" x-text="formatBRL(totalGeral)"></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- 6. Gerar -->
+        <div class="card">
+            <button type="button" class="btn btn-primary btn-full" @click="gerar()" :disabled="loading" id="btn-gerar">
+                <span x-show="loading" class="spinner"></span>
+                <span x-show="!loading">🚀 Gerar XML e baixar</span>
+                <span x-show="loading">Gerando...</span>
+            </button>
+            <div x-show="erroMsg" class="alert alert-error" x-text="erroMsg"></div>
+            <div x-show="resultado" class="result-box">
+                <p style="font-weight:700;color:#166534;margin-bottom:.5rem">✅ XML gerado com sucesso!</p>
+                <p style="font-size:.8rem;color:#166534">Chave: <span class="result-chave" x-text="resultado?.chave"></span></p>
+                <p style="font-size:.8rem;color:#166534;margin-top:.25rem"><span x-text="resultado?.totalProdutos"></span> produto(s) — <span x-text="formatBRL(totalGeral)"></span></p>
+                <button type="button" class="btn btn-success btn-sm" style="margin-top:.75rem" @click="baixarXml()">⬇️ Baixar XML novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PÁGINA: FORNECEDORES                                    -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div x-show="pagina==='fornecedores'" class="page">
+        <div class="card">
+            <div class="card-title">🏭 Cadastro de Fornecedores</div>
+            <div class="grid-3" style="margin-bottom:1rem">
+                <div>
+                    <label>CNPJ *</label>
+                    <input type="text" x-model="frmForn.CNPJ" maxlength="14" placeholder="14 dígitos">
+                </div>
+                <div>
+                    <label>Razão Social *</label>
+                    <input type="text" x-model="frmForn.xNome" placeholder="EMPRESA LTDA">
+                </div>
+                <div>
+                    <label>Nome Fantasia</label>
+                    <input type="text" x-model="frmForn.xFant" placeholder="Apelido">
+                </div>
+                <div>
+                    <label>Inscrição Estadual</label>
+                    <input type="text" x-model="frmForn.IE" placeholder="000000000">
+                </div>
+                <div>
+                    <label>Cidade</label>
+                    <input type="text" x-model="frmForn.enderEmit.xMun" placeholder="Teresina">
+                </div>
+                <div>
+                    <label>UF</label>
+                    <input type="text" x-model="frmForn.enderEmit.UF" maxlength="2" placeholder="PI">
+                </div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+                <button type="button" class="btn btn-primary" @click="salvarFornecedor()" id="btn-salvar-forn">💾 Salvar Fornecedor</button>
+                <span x-show="frnMsg" x-text="frnMsg" class="alert" :class="frnOk?'alert-success':'alert-error'" style="margin:0;padding:.3rem .75rem"></span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📋 Fornecedores Cadastrados <span class="badge badge-blue" x-text="fornecedores.length"></span></div>
+            <div x-show="!fornecedores.length" class="empty"><div class="empty-icon">🏭</div>Nenhum fornecedor cadastrado ainda.</div>
+            <div x-show="fornecedores.length" style="overflow-x:auto">
+                <table class="tbl">
+                    <thead><tr><th>CNPJ</th><th>Razão Social</th><th>IE</th><th>Cidade/UF</th><th></th></tr></thead>
+                    <tbody>
+                        <template x-for="f in fornecedores" :key="f.id">
+                            <tr>
+                                <td style="font-family:monospace;font-size:.8rem" x-text="f.CNPJ"></td>
+                                <td x-text="f.xNome"></td>
+                                <td x-text="f.IE||'—'"></td>
+                                <td x-text="(f.enderEmit?.xMun||'')+(f.enderEmit?.UF?' - '+f.enderEmit.UF:'')"></td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @click="deletarFornecedor(f.id)">✕</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PÁGINA: LOJAS                                           -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div x-show="pagina==='lojas'" class="page">
+        <div class="card">
+            <div class="card-title" x-text="editLoja ? '✏️ Editar Loja #' + editLoja : '🏪 Nova Loja'"></div>
+            <div class="grid-3" style="margin-bottom:1rem">
+                <div>
+                    <label>CNPJ *</label>
+                    <input type="text" x-model="frmLoja.CNPJ" maxlength="14" placeholder="14 dígitos">
+                </div>
+                <div style="grid-column:span 2">
+                    <label>Razão Social *</label>
+                    <input type="text" x-model="frmLoja.xNome" placeholder="EMPRESA LTDA">
+                </div>
+                <div>
+                    <label>Inscrição Estadual</label>
+                    <input type="text" x-model="frmLoja.IE" placeholder="000000000">
+                </div>
+                <div>
+                    <label>E-mail</label>
+                    <input type="text" x-model="frmLoja.email" placeholder="email@empresa.com">
+                </div>
+                <div>
+                    <label>Logradouro</label>
+                    <input type="text" x-model="frmLoja.enderDest.xLgr" placeholder="Rua/Av...">
+                </div>
+                <div>
+                    <label>Número</label>
+                    <input type="text" x-model="frmLoja.enderDest.nro" placeholder="S/N">
+                </div>
+                <div>
+                    <label>Bairro</label>
+                    <input type="text" x-model="frmLoja.enderDest.xBairro" placeholder="Centro">
+                </div>
+                <div>
+                    <label>Cidade</label>
+                    <input type="text" x-model="frmLoja.enderDest.xMun" placeholder="Teresina">
+                </div>
+                <div>
+                    <label>UF</label>
+                    <input type="text" x-model="frmLoja.enderDest.UF" maxlength="2" placeholder="PI">
+                </div>
+                <div>
+                    <label>CEP</label>
+                    <input type="text" x-model.number="frmLoja.enderDest.CEP" placeholder="64000000">
+                </div>
+                <div>
+                    <label>Código do Município (cMun)</label>
+                    <input type="number" x-model.number="frmLoja.enderDest.cMun" placeholder="2211001">
+                </div>
+                <div>
+                    <label>Fone</label>
+                    <input type="text" x-model="frmLoja.enderDest.fone" placeholder="86999999999">
+                </div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+                <button type="button" class="btn btn-primary" @click="salvarLoja()" id="btn-salvar-loja">💾 Salvar Loja</button>
+                <button x-show="editLoja" type="button" class="btn btn-ghost" @click="resetFrmLoja()">Cancelar</button>
+                <span x-show="lojaMsg" x-text="lojaMsg" class="alert" :class="lojaOk?'alert-success':'alert-error'" style="margin:0;padding:.3rem .75rem"></span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📋 Lojas Cadastradas <span class="badge badge-blue" x-text="lojas.length"></span></div>
+            <div x-show="!lojas.length" class="empty"><div class="empty-icon">🏪</div>Nenhuma loja cadastrada.</div>
+            <div x-show="lojas.length" style="overflow-x:auto">
+                <table class="tbl">
+                    <thead><tr><th>ID</th><th>CNPJ</th><th>Nome</th><th>Cidade/UF</th><th>IE</th><th></th></tr></thead>
+                    <tbody>
+                        <template x-for="l in lojas" :key="l.id">
+                            <tr>
+                                <td><span class="badge badge-blue" x-text="l.id"></span></td>
+                                <td style="font-family:monospace;font-size:.8rem" x-text="l.CNPJ"></td>
+                                <td x-text="l.xNome"></td>
+                                <td x-text="(l.enderDest?.xMun||'')+(l.enderDest?.UF?' - '+l.enderDest.UF:'')"></td>
+                                <td x-text="l.IE||'—'"></td>
+                                <td style="display:flex;gap:.4rem">
+                                    <button class="btn btn-ghost btn-sm" @click="editarLoja(l);pagina='lojas'">✏️</button>
+                                    <button class="btn btn-danger btn-sm" @click="deletarLoja(l.id)">✕</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PÁGINA: EAN-NCM                                         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div x-show="pagina==='ean'" class="page">
+        <div class="card">
+            <div class="card-title">🏷️ Registrar EAN → NCM</div>
+            <p style="font-size:.875rem;color:#475569;margin-bottom:1rem">
+                Ao cadastrar um EAN com seu NCM, o sistema preencherá automaticamente o NCM na próxima vez que esse produto aparecer.
+            </p>
+            <div class="grid-3" style="margin-bottom:1rem">
+                <div>
+                    <label>EAN / GTIN *</label>
+                    <input type="text" x-model="eanFrm.ean" placeholder="7891234567890" style="font-family:monospace">
+                </div>
+                <div>
+                    <label>NCM * (8 dígitos)</label>
+                    <input type="text" x-model="eanFrm.NCM" maxlength="8" placeholder="30049069" style="font-family:monospace">
+                </div>
+                <div>
+                    <label>Descrição do produto</label>
+                    <input type="text" x-model="eanFrm.xProd" placeholder="Opcional">
+                </div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+                <button type="button" class="btn btn-primary" @click="aprenderEan()" id="btn-salvar-ean">💾 Registrar EAN</button>
+                <span x-show="eanMsg" x-text="eanMsg" class="alert" :class="eanOk?'alert-success':'alert-error'" style="margin:0;padding:.3rem .75rem"></span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">ℹ️ Como funciona</div>
+            <ul style="font-size:.875rem;color:#475569;line-height:1.8;padding-left:1.25rem">
+                <li>Ao extrair produtos do HTML de uma NFC-e, o sistema já aprende os EANs e NCMs automaticamente.</li>
+                <li>Para produtos sem EAN ou com NCM errado, cadastre aqui manualmente.</li>
+                <li>O sistema usa o NCM padrão <code>30049069</code> para produtos não reconhecidos.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;padding:1.5rem;font-size:.75rem;color:#94a3b8">
+        GeraNota v2.1 — Uso interno. Não substitui emissão fiscal real.
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+.content-instrucoes{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center ;
+    margin-top: 15px;
+}
+
+.instrucoes{
+    width: 100%;
+    margin-top: 30px;
+}
+
+.instrucoes h2{
+    font-size: 1.5em;
+}
+
+.instrucoes p{
+    margin-left: 10px;
+}
+
+.instrucoes .p-button{
+    padding-top: 20px !important;
+}

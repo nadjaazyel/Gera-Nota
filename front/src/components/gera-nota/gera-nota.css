@@ -1,0 +1,35 @@
+.content-gera-nota{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center ;
+}
+
+.content-gera-nota h1{
+    margin-top: 15px;
+}
+
+.formulario-gera-nota {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.formulario-gera-nota input, .p-dropdown, .formulario-gera-nota textarea{
+    width: 45%;
+    margin: 15px 1%;
+}
+
+.onSubmit-gera-nota {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.carregando-gera-nota {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 40px;
+}

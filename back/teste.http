@@ -1,0 +1,47 @@
+### Health check
+GET http://localhost:3333/api/v1/health
+
+### Gerar nota - modo manual com 2 produtos
+POST http://localhost:3333/api/v1/gerar-nota
+Content-Type: application/json
+
+{
+  "modo": "manual",
+  "loja": 3,
+  "numeroNfe": "100001",
+  "codigoNumeroChave": "12345678",
+  "serie": "1",
+  "emitente": {
+    "CNPJ": "16619378001694",
+    "xNome": "FORNECEDOR TESTE LTDA",
+    "IE": "196991617",
+    "CRT": 3,
+    "enderEmit": {
+      "xLgr": "AV TESTE",
+      "nro": "100",
+      "xBairro": "CENTRO",
+      "cMun": 2211001,
+      "xMun": "TERESINA",
+      "UF": "PI",
+      "CEP": 64000000
+    }
+  },
+  "produtos": [
+    {
+      "xProd": "DIPIRONA 500MG COMP",
+      "cEAN": "7891234567890",
+      "NCM": "30049069",
+      "CFOP": "5403",
+      "uCom": "UN",
+      "qCom": 10,
+      "vUnCom": 2.5
+    },
+    {
+      "xProd": "SHAMPOO ANTICASPA 200ML",
+      "NCM": "33051000",
+      "uCom": "UN",
+      "qCom": 6,
+      "vUnCom": 18.9
+    }
+  ]
+}
