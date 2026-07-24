@@ -24,7 +24,8 @@ export interface Fornecedor {
     enderEmit?: FornecedorEndereco;
 }
 
-const FILE = path.resolve(__dirname, "../../data/fornecedores.json");
+const isVercel = process.env.VERCEL === "1";
+const FILE = isVercel ? "/tmp/fornecedores.json" : path.resolve(__dirname, "../../data/fornecedores.json");
 
 let cache: Fornecedor[] | null = null;
 

@@ -25,7 +25,8 @@ export interface Loja {
     email?: string;
 }
 
-const FILE = path.resolve(__dirname, "../../data/lojas.json");
+const isVercel = process.env.VERCEL === "1";
+const FILE = isVercel ? "/tmp/lojas.json" : path.resolve(__dirname, "../../data/lojas.json");
 
 let cache: Loja[] | null = null;
 

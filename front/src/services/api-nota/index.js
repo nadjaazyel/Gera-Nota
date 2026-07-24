@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3300/api/v1",
+  baseURL: process.env.REACT_APP_API_URL || "/api/v1",
 });
 
 export const geraNota = async (cnpj, numeroNfe, codigoNumeroChave, loja, html) => {

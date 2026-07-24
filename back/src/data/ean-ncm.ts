@@ -7,7 +7,8 @@ interface EanNcmData {
     byEan: Record<string, { NCM: string; xProd?: string }>;
 }
 
-const FILE = path.resolve(__dirname, "../../data/ean-ncm.json");
+const isVercel = process.env.VERCEL === "1";
+const FILE = isVercel ? "/tmp/ean-ncm.json" : path.resolve(__dirname, "../../data/ean-ncm.json");
 
 let cache: EanNcmData | null = null;
 
