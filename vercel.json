@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "front",
+  "framework": "create-react-app",
   "rewrites": [
     {
       "source": "/api/(.*)",
