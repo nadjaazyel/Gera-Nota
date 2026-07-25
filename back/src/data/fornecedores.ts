@@ -26,6 +26,7 @@ export interface Fornecedor {
 
 const isVercel = process.env.VERCEL === "1";
 const FILE = isVercel ? "/tmp/fornecedores.json" : path.resolve(__dirname, "../../data/fornecedores.json");
+const ORIGINAL_FILE = path.resolve(__dirname, "../../data/fornecedores.json");
 
 let cache: Fornecedor[] | null = null;
 
@@ -35,6 +36,15 @@ export async function listarFornecedores(): Promise<Fornecedor[]> {
         const txt = await fs.readFile(FILE, "utf-8");
         cache = JSON.parse(txt);
     } catch {
+        if (isVercel) {
+            try {
+                const orig = await fs.readFile(ORIGINAL_FILE, "utf-8");
+                cache = JSON.parse(orig);
+                return cache!;
+            } catch {
+                // ignore
+            }
+        }
         cache = [];
     }
     return cache!;

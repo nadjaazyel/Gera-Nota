@@ -27,6 +27,7 @@ export interface Loja {
 
 const isVercel = process.env.VERCEL === "1";
 const FILE = isVercel ? "/tmp/lojas.json" : path.resolve(__dirname, "../../data/lojas.json");
+const ORIGINAL_FILE = path.resolve(__dirname, "../../data/lojas.json");
 
 let cache: Loja[] | null = null;
 
@@ -37,6 +38,15 @@ export async function carregarLojas(): Promise<Loja[]> {
         cache = JSON.parse(txt);
         return cache!;
     } catch (err) {
+        if (isVercel) {
+            try {
+                const orig = await fs.readFile(ORIGINAL_FILE, "utf-8");
+                cache = JSON.parse(orig);
+                return cache!;
+            } catch (err2) {
+                console.warn("Não consegui ler lojas.json original no Vercel:", err2);
+            }
+        }
         console.warn("Não consegui ler lojas.json:", err);
         cache = [];
         return cache;

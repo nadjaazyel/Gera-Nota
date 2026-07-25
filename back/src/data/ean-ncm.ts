@@ -10,6 +10,8 @@ interface EanNcmData {
 const isVercel = process.env.VERCEL === "1";
 const FILE = isVercel ? "/tmp/ean-ncm.json" : path.resolve(__dirname, "../../data/ean-ncm.json");
 
+const ORIGINAL_FILE = path.resolve(__dirname, "../../data/ean-ncm.json");
+
 let cache: EanNcmData | null = null;
 
 async function load(): Promise<EanNcmData> {
@@ -18,6 +20,15 @@ async function load(): Promise<EanNcmData> {
         const txt = await fs.readFile(FILE, "utf-8");
         cache = JSON.parse(txt);
     } catch {
+        if (isVercel) {
+            try {
+                const orig = await fs.readFile(ORIGINAL_FILE, "utf-8");
+                cache = JSON.parse(orig);
+                return cache!;
+            } catch {
+                // ignore
+            }
+        }
         cache = { _default: { NCM: "30049069" }, _byPrefix: {}, byEan: {} };
     }
     return cache!;
