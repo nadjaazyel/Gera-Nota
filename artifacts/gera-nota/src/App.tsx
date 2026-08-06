@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type DragEvent } from 'react';
 import { Login } from './pages/Login';
+import consultaEmAbas from '../../../attached_assets/2026-08-06_14-20-05_1786038624134.png';
+import produtosEServicos from '../../../attached_assets/2026-08-06_14-22-07_1786038626150.png';
 
 const API = '/api/v1';
 
@@ -55,8 +57,12 @@ export default function App() {
   const updateProduto = (index: number, key: keyof Produto, value: any) => setProdutos(ps => ps.map((p, i) => i === index ? { ...p, [key]: value } : p));
   const chooseFornecedor = (f: Fornecedor) => setEmit((old: any) => ({ ...old, CNPJ: f.CNPJ, xNome: f.xNome, IE: f.IE || '', CRT: f.CRT || 3, enderEmit: { ...old.enderEmit, ...(f.enderEmit || {}) } }));
 
-  const importHtml = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; if (!file) return;
+  const importHtmlFile = async (file: File) => {
+    const isHtml = /\.(html?|xhtml)$/i.test(file.name) || file.type === 'text/html' || file.type === 'application/xhtml+xml';
+    if (!isHtml) {
+      setMessage({ text: 'Escolha um arquivo HTML salvo da página da NFC-e (.html ou .htm).', ok: false });
+      return;
+    }
     try {
       const html = await file.text(); const data = await request('/extrair-html', { method: 'POST', body: JSON.stringify({ html }) });
       if (data.emitente?.CNPJ) {
@@ -66,6 +72,10 @@ export default function App() {
       setProdutos((data.produtos || []).map((p: any) => ({ ...novoProduto(), ...p, qCom: Number(p.qCom) || 0, vUnCom: Number(p.vUnCom) || 0 })));
       setMessage({ text: `✓ ${data.produtos?.length || 0} produto(s) importado(s). Confira os dados.`, ok: true });
     } catch (e: any) { setMessage({ text: e.message, ok: false }); }
+  };
+  const importHtml = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) await importHtmlFile(file);
     event.target.value = '';
   };
   const generate = async () => {
@@ -101,7 +111,7 @@ export default function App() {
       {page === 'gerar' && <><section className="card"><h2>🏪 1. Para qual loja é a entrada?</h2><div className="grid-4">{lojas.map(l => <button key={l.id} className={`loja-btn ${lojaId === l.id ? 'selected' : ''}`} onClick={() => setLojaId(l.id)}><small>ID {l.id}</small><b>{l.xNome}</b><span>{l.enderDest?.xMun} - {l.enderDest?.UF}</span></button>)}</div></section>
         <section className="card"><h2>🏭 2. Quem vendeu para você?</h2><div className="grid-3"><div className="autocomplete wide2"><Label name="Razão Social *"><input value={emit.xNome} onFocus={() => setAcField('nome')} onBlur={() => setTimeout(() => setAcField('fechado'), 150)} onChange={e => { setAcField('nome'); setEmit({ ...emit, xNome: e.target.value }); }} /></Label>{nomeQuery.length >= 3 && acField === 'nome' && suggestions.length > 0 && <div className="autocomplete-list">{suggestions.map(f => <button key={f.id} onMouseDown={() => { chooseFornecedor(f); setAcField('fechado'); }}>{f.xNome}<small>{f.CNPJ}</small></button>)}</div>}</div><div className="autocomplete"><Label name="CNPJ do fornecedor *"><input value={emit.CNPJ} maxLength={14} onFocus={() => setAcField('cnpj')} onBlur={() => setTimeout(() => setAcField('fechado'), 150)} onChange={e => { setAcField('cnpj'); setEmit({ ...emit, CNPJ: e.target.value.replace(/\D/g, '') }); }} /></Label>{cnpjQuery.length >= 3 && acField === 'cnpj' && suggestions.length > 0 && <div className="autocomplete-list">{suggestions.map(f => <button key={f.id} onMouseDown={() => { chooseFornecedor(f); setAcField('fechado'); }}>{f.xNome}<small>{f.CNPJ}</small></button>)}</div>}</div><Label name="Inscrição Estadual"><input value={emit.IE} onChange={e => setEmit({ ...emit, IE: e.target.value })} /></Label><Label name="Cidade"><input value={emit.enderEmit.xMun} onChange={e => setEmit({ ...emit, enderEmit: { ...emit.enderEmit, xMun: e.target.value } })} /></Label><Label name="UF"><input maxLength={2} value={emit.enderEmit.UF} onChange={e => setEmit({ ...emit, enderEmit: { ...emit.enderEmit, UF: e.target.value.toUpperCase() } })} /></Label></div><p className="alert alert-info">💡 O fornecedor é salvo automaticamente ao gerar a nota. Você pode gerenciá-los na aba <b>Fornecedores</b>.</p></section>
         <section className="card"><h2>🔢 3. Numeração da nota</h2><div className="grid-3"><Label name="Número *"><input value={numeroNfe} onChange={e => setNumeroNfe(e.target.value.replace(/\D/g, ''))} /></Label><Label name="Série"><input value={serie} onChange={e => setSerie(e.target.value.replace(/\D/g, ''))} /></Label><Label name="Código aleatório (cNF)"><div className="with-button"><input value={cnf} onChange={e => setCnf(e.target.value.replace(/\D/g, '').slice(0,8))} /><button className="btn btn-ghost" onClick={() => setCnf(String(Math.floor(10_000_000 + Math.random() * 89_999_999)))}>↻</button></div></Label></div></section>
-        <Products produtos={produtos} update={updateProduto} remove={(i: number) => setProdutos(p => p.filter((_, j) => j !== i))} add={() => setProdutos(p => [...p, novoProduto()])} importHtml={importHtml} total={total} brl={brl} />
+        <Products produtos={produtos} update={updateProduto} remove={(i: number) => setProdutos(p => p.filter((_, j) => j !== i))} add={() => setProdutos(p => [...p, novoProduto()])} importHtml={importHtml} importHtmlFile={importHtmlFile} total={total} brl={brl} />
         <section className="card"><button className="btn btn-primary btn-full" disabled={loading} onClick={generate}>{loading ? 'Gerando…' : '🚀 Gerar XML e baixar'}</button>{result && <div className="result-box">✅ XML gerado com sucesso!<br/><small>Chave: {result.chave}</small><br/><button className="btn btn-success btn-sm" onClick={() => download(result.xml, `nfe-${numeroNfe}-loja${lojaId}.xml`)}>⬇ Baixar XML novamente</button></div>}</section></>}
       {page === 'fornecedores' && <><section className="card"><h2>🏭 Cadastro de Fornecedores</h2><FornecedorForm form={fornForm} setForm={setFornForm}/><button className="btn btn-primary" onClick={saveFornecedor}>💾 Salvar Fornecedor</button></section><section className="card"><h2>📋 Fornecedores Cadastrados <em>{fornecedores.length}</em></h2><table className="tbl"><thead><tr><th>CNPJ</th><th>Razão Social</th><th>IE</th><th>Cidade/UF</th><th/></tr></thead><tbody>{fornecedores.map(f => <tr key={f.id}><td>{f.CNPJ}</td><td>{f.xNome}</td><td>{f.IE || '—'}</td><td>{f.enderEmit?.xMun || ''} - {f.enderEmit?.UF || ''}</td><td><button className="btn btn-danger btn-sm" onClick={() => request(`/fornecedores/${f.id}`, {method:'DELETE'}).then(load)}>✕</button></td></tr>)}</tbody></table></section></>}
       {page === 'lojas' && <Lojas form={lojaForm} setForm={setLojaForm} save={saveLoja} lojas={lojas} edit={(l: Loja) => {setEditingLoja(l.id); setLojaForm(structuredClone(l));}} remove={(id: number) => request(`/lojas/${id}`, {method:'DELETE'}).then(load)} editing={!!editingLoja}/>}
@@ -111,6 +121,69 @@ export default function App() {
 }
 
 function Label({name, children, wide=false}: any) { return <label className={wide ? 'wide' : ''}>{name}{children}</label> }
-function Products({produtos,update,remove,add,importHtml,total,brl}: any) { return <section className="card"><header><h2>📦 4. Produtos <em>{produtos.length} item(s)</em></h2><div><label className="btn btn-primary btn-sm">📂 Importar Arquivo HTML<input type="file" accept=".html,.htm" hidden onChange={importHtml}/></label><button className="btn btn-success btn-sm" onClick={add}>+ Inserir Manual</button></div></header>{!produtos.length ? <div className="empty">📦<br/>Nenhum produto.<small>Importe o arquivo salvo da SEFAZ (Ctrl+S) ou insira manualmente.</small></div> : <div className="table-wrap"><table className="tbl"><thead><tr>{['#','Cód. Forn','Descrição *','EAN','NCM *','CFOP','Un.','Qtd *','Vl.Un *','Total',''].map((x: string)=><th key={x}>{x}</th>)}</tr></thead><tbody>{produtos.map((p:any,i:number)=><tr key={i}><td>{i+1}</td>{(['cProd','xProd','cEAN','NCM','CFOP','uCom'] as const).map(k=><td key={k}><input value={p[k]} onChange={e=>update(i,k,e.target.value)}/></td>)}<td><input type="number" value={p.qCom} onChange={e=>update(i,'qCom',Number(e.target.value))}/></td><td><input type="number" value={p.vUnCom} onChange={e=>update(i,'vUnCom',Number(e.target.value))}/></td><td>{brl(p.qCom*p.vUnCom)}</td><td><button className="x" onClick={()=>remove(i)}>✕</button></td></tr>)}</tbody><tfoot><tr><td colSpan={9}>Total geral:</td><td>{brl(total)}</td><td/></tr></tfoot></table></div>}</section> }
+function Products({produtos,update,remove,add,importHtml,importHtmlFile,total,brl}: any) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const dragDepth = useRef(0);
+  const onDragEnter = (event: DragEvent<HTMLElement>) => {
+    event.preventDefault();
+    dragDepth.current += 1;
+    setIsDragging(true);
+  };
+  const onDragLeave = (event: DragEvent<HTMLElement>) => {
+    event.preventDefault();
+    dragDepth.current -= 1;
+    if (dragDepth.current <= 0) { dragDepth.current = 0; setIsDragging(false); }
+  };
+  const onDrop = (event: DragEvent<HTMLElement>) => {
+    event.preventDefault();
+    dragDepth.current = 0;
+    setIsDragging(false);
+    const file = event.dataTransfer.files?.[0];
+    if (file) void importHtmlFile(file);
+  };
+  return <>
+    <section className={`card products-card ${isDragging ? 'is-dragging' : ''}`} onDragEnter={onDragEnter} onDragOver={event => event.preventDefault()} onDragLeave={onDragLeave} onDrop={onDrop}>
+      <header><h2>📦 4. Produtos <em>{produtos.length} item(s)</em></h2><div className="product-actions"><button className="btn btn-quiet btn-sm" onClick={() => setHelpOpen(true)}>Como importar</button><label className="btn btn-primary btn-sm">📂 Importar Arquivo HTML<input type="file" accept=".html,.htm,text/html" hidden onChange={importHtml}/></label><button className="btn btn-success btn-sm" onClick={add}>+ Inserir Manual</button></div></header>
+      {isDragging && <div className="drop-overlay" aria-live="polite"><strong>Solte o arquivo HTML aqui</strong><span>Vamos importar os produtos da NFC-e.</span></div>}
+      {!produtos.length ? <div className="empty">📦<br/>Nenhum produto.<small>Arraste o arquivo HTML salvo da SEFAZ para este cartão, selecione-o no botão acima ou insira manualmente.</small></div> : <div className="table-wrap"><table className="tbl"><thead><tr>{['#','Cód. Forn','Descrição *','EAN','NCM *','CFOP','Un.','Qtd *','Vl.Un *','Total',''].map((x: string)=><th key={x}>{x}</th>)}</tr></thead><tbody>{produtos.map((p:any,i:number)=><tr key={i}><td>{i+1}</td>{(['cProd','xProd','cEAN','NCM','CFOP','uCom'] as const).map(k=><td key={k}><input value={p[k]} onChange={e=>update(i,k,e.target.value)}/></td>)}<td><input type="number" value={p.qCom} onChange={e=>update(i,'qCom',Number(e.target.value))}/></td><td><input type="number" value={p.vUnCom} onChange={e=>update(i,'vUnCom',Number(e.target.value))}/></td><td>{brl(p.qCom*p.vUnCom)}</td><td><button className="x" onClick={()=>remove(i)}>✕</button></td></tr>)}</tbody><tfoot><tr><td colSpan={9}>Total geral:</td><td>{brl(total)}</td><td/></tr></tfoot></table></div>}
+    </section>
+    <ImportHelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
+  </>;
+}
+
+function ImportHelpDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const dialog = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { onClose(); return; }
+      if (event.key !== 'Tab') return;
+      const focusable = dialog.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    const timeout = window.setTimeout(() => closeButton.current?.focus(), 0);
+    return () => { window.removeEventListener('keydown', onKeyDown); window.clearTimeout(timeout); };
+  }, [open, onClose]);
+  if (!open) return null;
+  return <div className="modal-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
+    <section ref={dialog} className="import-dialog" role="dialog" aria-modal="true" aria-labelledby="import-help-title">
+      <header className="dialog-header"><div><p className="eyebrow">GUIA RÁPIDO</p><h2 id="import-help-title">Como importar produtos da NFC-e</h2><p>Salve a página de produtos e solte o arquivo HTML neste cartão.</p></div><button ref={closeButton} className="dialog-close" onClick={onClose} aria-label="Fechar instruções">×</button></header>
+      <ol className="import-steps">
+        <li><span>1</span><div><h3>Consulte a sua NFC-e</h3><p>Acesse <a href="https://portal.sefaz.pi.gov.br/nfce/" target="_blank" rel="noreferrer">portal.sefaz.pi.gov.br/nfce</a>, informe a <b>chave de acesso de 44 dígitos</b> e conclua a verificação solicitada.</p></div></li>
+        <li><span>2</span><div><h3>Abra a nota em abas</h3><p>Depois da consulta, clique em <b>“Visualizar em abas”</b>.</p><img src={consultaEmAbas} alt="Botão Visualizar em abas destacado na página de consulta da NFC-e" /></div></li>
+        <li><span>3</span><div><h3>Mostre os produtos</h3><p>Na nota aberta, selecione a aba <b>“Produtos e Serviços”</b>.</p><img src={produtosEServicos} alt="Aba Produtos e Serviços destacada na nota fiscal NFC-e" /></div></li>
+        <li><span>4</span><div><h3>Salve a página e importe</h3><p>Use <kbd>Ctrl</kbd> + <kbd>S</kbd> para salvar a página em HTML. Volte ao GeraNota e arraste o arquivo salvo para o cartão Produtos ou escolha <b>Importar Arquivo HTML</b>.</p></div></li>
+      </ol>
+      <footer className="dialog-footer"><span>O GeraNota não acessa a SEFAZ nem realiza a consulta por você.</span><button className="btn btn-primary" onClick={onClose}>Entendi</button></footer>
+    </section>
+  </div>;
+}
 function FornecedorForm({form,setForm}:any) { const u=(k:string,v:string)=>setForm({...form,[k]:v}); return <div className="grid-3 form-gap"><Label name="CNPJ *"><input value={form.CNPJ} onChange={e=>u('CNPJ',e.target.value.replace(/\D/g,''))}/></Label><Label name="Razão Social *"><input value={form.xNome} onChange={e=>u('xNome',e.target.value)}/></Label><Label name="Nome Fantasia"><input value={form.xFant} onChange={e=>u('xFant',e.target.value)}/></Label><Label name="Inscrição Estadual"><input value={form.IE} onChange={e=>u('IE',e.target.value)}/></Label><Label name="Cidade"><input value={form.enderEmit.xMun} onChange={e=>setForm({...form,enderEmit:{...form.enderEmit,xMun:e.target.value}})}/></Label><Label name="UF"><input value={form.enderEmit.UF} onChange={e=>setForm({...form,enderEmit:{...form.enderEmit,UF:e.target.value}})}/></Label></div> }
 function Lojas({form,setForm,save,lojas,edit,remove,editing}:any) { const e=(k:string,v:any)=>setForm({...form,enderDest:{...form.enderDest,[k]:v}}); return <><section className="card"><h2>{editing?'✏️ Editar Loja':'🏪 Nova Loja'}</h2><div className="grid-3 form-gap"><Label name="CNPJ *"><input value={form.CNPJ} onChange={x=>setForm({...form,CNPJ:x.target.value})}/></Label><Label name="Razão Social *" wide><input value={form.xNome} onChange={x=>setForm({...form,xNome:x.target.value})}/></Label><Label name="Inscrição Estadual"><input value={form.IE} onChange={x=>setForm({...form,IE:x.target.value})}/></Label>{[['xLgr','Logradouro'],['nro','Número'],['xBairro','Bairro'],['xMun','Cidade'],['UF','UF'],['CEP','CEP'],['cMun','Código do Município'],['fone','Fone']].map(([k,n]: [string, string])=><Label key={k} name={n}><input value={field(form.enderDest[k])} onChange={x=>e(k,x.target.value)}/></Label>)}</div><button className="btn btn-primary" onClick={save}>💾 Salvar Loja</button></section><section className="card"><h2>📋 Lojas Cadastradas</h2><table className="tbl"><thead><tr><th>ID</th><th>CNPJ</th><th>Nome</th><th>Cidade/UF</th><th/><th/></tr></thead><tbody>{lojas.map((l:Loja)=><tr key={l.id}><td>{l.id}</td><td>{l.CNPJ}</td><td>{l.xNome}</td><td>{l.enderDest?.xMun} - {l.enderDest?.UF}</td><td><button className="btn btn-ghost btn-sm" onClick={()=>edit(l)}>✏️</button></td><td><button className="btn btn-danger btn-sm" onClick={()=>remove(l.id)}>✕</button></td></tr>)}</tbody></table></section></> }
