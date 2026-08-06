@@ -120,9 +120,18 @@ export async function gerarNota(input: GerarNotaInput): Promise<{
         produtos,
     });
 
-    await fs.mkdir(ARQUIVOS_DIR, { recursive: true });
     const arquivo = path.join(ARQUIVOS_DIR, `nfe-${input.numeroNfe}-loja${input.loja}.xml`);
-    await fs.writeFile(arquivo, xml, "utf-8");
+    // Vercel/serverless filesystems are read-only outside /tmp. The client
+    // already receives the XML response for download, so saving a local copy
+    // is best-effort only and must never prevent generation.
+    try {
+        const outputDir = process.env["VERCEL"] ? "/tmp/gera-nota" : ARQUIVOS_DIR;
+        const outputFile = path.join(outputDir, `nfe-${input.numeroNfe}-loja${input.loja}.xml`);
+        await fs.mkdir(outputDir, { recursive: true });
+        await fs.writeFile(outputFile, xml, "utf-8");
+    } catch {
+        // A file download is still available in the HTTP response.
+    }
 
     return { xml, chave, cDV, arquivo, totalProdutos: produtos.length };
 }
