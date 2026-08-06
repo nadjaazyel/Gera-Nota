@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type DragEvent } from 'react';
-import { Login } from './pages/Login';
 import consultaEmAbas from '../../../attached_assets/2026-08-06_14-20-05_1786038624134.png';
 import produtosEServicos from '../../../attached_assets/2026-08-06_14-22-07_1786038626150.png';
 
@@ -23,7 +22,6 @@ async function request(path: string, init?: RequestInit) {
 const field = (value: unknown) => String(value ?? '');
 
 export default function App() {
-  const [auth, setAuth] = useState<'checking' | 'yes' | 'no'>('checking');
   const [page, setPage] = useState<'gerar' | 'fornecedores' | 'lojas' | 'ean'>('gerar');
   const [lojas, setLojas] = useState<Loja[]>([]);
   const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
@@ -47,10 +45,7 @@ export default function App() {
     setLojas(l.lojas ?? []); setFornecedores(f.fornecedores ?? []);
     setLojaId(current => current ?? l.lojas?.[0]?.id ?? null);
   };
-  useEffect(() => {
-    fetch('/api/auth/status', { credentials: 'include' }).then(r => r.json()).then(d => setAuth(d.authenticated ? 'yes' : 'no')).catch(() => setAuth('no'));
-  }, []);
-  useEffect(() => { if (auth === 'yes') { setCnf(String(Math.floor(10_000_000 + Math.random() * 89_999_999))); load().catch(e => setMessage({ text: e.message, ok: false })); } }, [auth]);
+  useEffect(() => { setCnf(String(Math.floor(10_000_000 + Math.random() * 89_999_999))); load().catch(e => setMessage({ text: e.message, ok: false })); }, []);
 
   const total = useMemo(() => produtos.reduce((n, p) => n + Number(p.qCom || 0) * Number(p.vUnCom || 0), 0), [produtos]);
   const brl = (value: number) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -94,8 +89,6 @@ export default function App() {
   const saveFornecedor = async () => { try { await request('/fornecedores', { method: 'POST', body: JSON.stringify(fornForm) }); setFornForm(novoFornecedor()); setMessage({ text: 'Fornecedor salvo!', ok: true }); load(); } catch (e: any) { setMessage({ text: e.message, ok: false }); } };
   const saveLoja = async () => { try { await request('/lojas', { method: 'POST', body: JSON.stringify(editingLoja ? { ...lojaForm, id: editingLoja } : lojaForm) }); setLojaForm(novaLoja()); setEditingLoja(null); setMessage({ text: 'Loja salva!', ok: true }); load(); } catch (e: any) { setMessage({ text: e.message, ok: false }); } };
 
-  if (auth === 'checking') return <main className="loading">Carregando…</main>;
-  if (auth === 'no') return <Login onLogin={() => setAuth('yes')} />;
   const nomeQuery = emit.xNome.trim().toLowerCase();
   const cnpjQuery = emit.CNPJ.replace(/\D/g, '');
   const suggestions = (acField === 'nome'
@@ -104,7 +97,6 @@ export default function App() {
   return <div>
     <nav className="nav"><div className="nav-brand">⚡ GeraNota</div>
       {([['gerar','📄 Gerar NF-e'],['fornecedores','🏭 Fornecedores'],['lojas','🏪 Lojas'],['ean','🏷️ EAN-NCM']] as const).map(([key, label]) => <button key={key} className={`nav-tab ${page === key ? 'active' : ''}`} onClick={() => setPage(key)}>{label}</button>)}
-      <button className="logout" onClick={() => fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).then(() => setAuth('no'))}>Sair</button>
     </nav>
     <main className="page">
       {message && <div className={`alert ${message.ok ? 'alert-success' : 'alert-error'}`}>{message.text}</div>}

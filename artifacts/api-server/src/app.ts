@@ -1,6 +1,5 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import session from "express-session";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
@@ -39,26 +38,6 @@ app.use(
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
-  }),
-);
-
-// ── Session ───────────────────────────────────────────────────────────────────
-const secret = process.env["SESSION_SECRET"];
-if (!secret) {
-  throw new Error("SESSION_SECRET environment variable is required.");
-}
-
-app.use(
-  session({
-    secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: process.env["NODE_ENV"] === "production",
-      sameSite: "lax",
-      maxAge: 8 * 60 * 60 * 1000, // 8 hours
-    },
   }),
 );
 
