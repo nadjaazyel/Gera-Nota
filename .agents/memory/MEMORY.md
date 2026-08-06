@@ -1,1 +1,2 @@
 - [API server runtime cwd](api-server-cwd.md) — process.cwd() in the api-server artifact is the artifact dir, not workspace root
+- [Vercel deploy source](vercel-deploy-source.md) — published site builds from .migration-backup, not the Replit artifacts
