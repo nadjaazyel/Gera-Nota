@@ -1,0 +1,38 @@
+[
+  {
+    "CNPJ": "47093966000508",
+    "xNome": "TOUREIRO GIL MARTINS",
+    "IE": "",
+    "CRT": 3,
+    "enderEmit": {
+      "xLgr": "ENDERECO NAO INFORMADO",
+      "nro": "SN",
+      "xBairro": "CENTRO",
+      "cMun": 2211001,
+      "xMun": "TERESINA",
+      "UF": "PI",
+      "CEP": 64000000,
+      "cPais": 1058,
+      "xPais": "Brasil"
+    },
+    "id": 2
+  },
+  {
+    "CNPJ": "00598043000544",
+    "xNome": "M. O. GALVAO ATACADISTA LTDA",
+    "IE": "",
+    "CRT": 3,
+    "enderEmit": {
+      "xLgr": "ENDERECO NAO INFORMADO",
+      "nro": "SN",
+      "xBairro": "CENTRO",
+      "cMun": 2211001,
+      "xMun": "TERESINA",
+      "UF": "PI",
+      "CEP": 64000000,
+      "cPais": 1058,
+      "xPais": "Brasil"
+    },
+    "id": 3
+  }
+]

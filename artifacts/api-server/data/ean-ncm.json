@@ -1,0 +1,685 @@
+{
+  "_default": {
+    "NCM": "30049069",
+    "descricao": "Outros medicamentos com produtos para usos terapêuticos"
+  },
+  "_byPrefix": {
+    "19": "19011090",
+    "21": "21069030",
+    "22": "22011000",
+    "27": "27122000",
+    "30": "30049069",
+    "33": "33051000",
+    "34": "34013000"
+  },
+  "byEan": {
+    "7896024760135": {
+      "NCM": "19053100",
+      "xProd": "BIS PIRAQUE 75G R.GOIABINHA - CX"
+    },
+    "7891991000826": {
+      "NCM": "22021000",
+      "xProd": "REFRI ANTARCTICA LTA 0,35L GUARANA - FR"
+    },
+    "7891991000727": {
+      "NCM": "22021000",
+      "xProd": "REFRI ANTARCTICA LTA 0,35L GUARANA ZERO - FR"
+    },
+    "7896094928350": {
+      "NCM": "22029900",
+      "xProd": "ENGOV UP 269ML MORANGO KIWI HYPERA - UN"
+    },
+    "7898641070901": {
+      "NCM": "21069030",
+      "xProd": "SUPL.DUX WHEY CONCENTRADO SH 28G BAUNILH - SH/28G"
+    },
+    "7897917001762": {
+      "NCM": "30043999",
+      "xProd": "GEL DERM DICLOF DIETIL 60G BELFAR BELFAR - CX"
+    },
+    "7896523207803": {
+      "NCM": "30039047",
+      "xProd": "GEL DERM DICLOF DIETIL 60G GEN CIMED - CXT/1UN"
+    },
+    "7908512700933": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G CAN.VELHO PREMIUM - UN/150G"
+    },
+    "7896714273006": {
+      "NCM": "30049099",
+      "xProd": "MASSAGEOL AEROSOL 120ML NEO QUIMICA - CX"
+    },
+    "7908512700810": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G F.FORT+PREMIUM - CX"
+    },
+    "7908512701671": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G FISIOPOWER EXTRA F - UN"
+    },
+    "7908512700667": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G 18 ERVAS CARTILAGE - UN"
+    },
+    "7896714221083": {
+      "NCM": "30049037",
+      "xProd": "NEOCOFLAN AEROSOL 85ML NEO QUIMICA - FRC/ 1 UN"
+    },
+    "7897947620766": {
+      "NCM": "33061000",
+      "xProd": "GEL DENTAL CARMED 70G FINI MIN. AZED MAC - UN/70G"
+    },
+    "7897947620506": {
+      "NCM": "33061000",
+      "xProd": "GEL DENTAL CARMED 70G FINI BEIJOS - UN/70G"
+    },
+    "7897947620773": {
+      "NCM": "33061000",
+      "xProd": "GEL DENTAL CARMED 70G MELANCIA - UN/70G"
+    },
+    "7897947620490": {
+      "NCM": "33061000",
+      "xProd": "GEL DENTAL CARMED 70G FINI DENTADURAS - UN/70G"
+    },
+    "7898939183375": {
+      "NCM": "33072090",
+      "xProd": "CREME HID BIO 150G SEBO DE CARNEIRO - UN/150G"
+    },
+    "7908512700568": {
+      "NCM": "33072090",
+      "xProd": "CREME MASSAGEM BIOINSTINTO 150G REDUTOR - UN"
+    },
+    "7898936049520": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 210ML AMORA NEGRA - CX"
+    },
+    "7898936049063": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 200ML MORANGO - CX"
+    },
+    "7898936049537": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 210ML MACA HOT - UN/1 UN"
+    },
+    "7898936049117": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 210ML CHOCOLATE E MENTA - CX"
+    },
+    "7898936049735": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 210ML BARBAT/AROEIRA - FRC/210ML"
+    },
+    "7898936049070": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 210ML MELANCIA (NOVO) - UN/210ML"
+    },
+    "7891317025755": {
+      "NCM": "33069000",
+      "xProd": "ENXAG BUCAL OAZ 250ML FRESH HORTELA - UN/250ML"
+    },
+    "7891317044947": {
+      "NCM": "33069000",
+      "xProd": "ENXAG BUCAL OAZ 250ML FRESH HORTELA - UN"
+    },
+    "7891317010959": {
+      "NCM": "33069000",
+      "xProd": "ENXAG BUCAL OAZ 250ML FRESH MENTA REFRES - CX"
+    },
+    "7898566786598": {
+      "NCM": "34013000",
+      "xProd": "SAB INT.BIO INSTINTO 200ML 17 ERVAS AROM - CX"
+    },
+    "7898566782507": {
+      "NCM": "34013000",
+      "xProd": "SAB INT.BIO AROMA 200ML LOVE - CX"
+    },
+    "7898566782439": {
+      "NCM": "34013000",
+      "xProd": "SAB INT.BIO AROMA 200ML BARB.AROEIRA - FRC/200ML"
+    },
+    "7898566783528": {
+      "NCM": "34013000",
+      "xProd": "SAB INT.BIO AROMA 200ML AROEIRA AROMA - FRC/200ML"
+    },
+    "7891317024772": {
+      "NCM": "33069000",
+      "xProd": "ENXAG BUCAL OAZ 250ML WHITE FRESH - UN/250ML"
+    },
+    "7898936049544": {
+      "NCM": "34012010",
+      "xProd": "SAB INT.APINIL 210ML APIMEN - CX"
+    },
+    "7896806700021": {
+      "NCM": "33072010",
+      "xProd": "LEITE DE ROSAS TRAD.100ML MEDIO - UN/100ML"
+    },
+    "7908512700742": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G C.VELHO C/SEBO - UN"
+    },
+    "7908512700841": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G FISIOFORT - CXT/1UN"
+    },
+    "7908512700575": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 200G 15 ERVAS - CX"
+    },
+    "7898936049605": {
+      "NCM": "33049990",
+      "xProd": "GEL MASSAGEM APINIL 200G 17 EVAS C/SEBO - CX"
+    },
+    "7898632473346": {
+      "NCM": "34012010",
+      "xProd": "SAB LIQ LABOTRAT 190ML PITAYA - UN/190ML"
+    },
+    "7908512701008": {
+      "NCM": "33072090",
+      "xProd": "OLEO MASSAGEM 130ML BIO C.DE VELHO - UN/130ML"
+    },
+    "7891176117509": {
+      "NCM": "34011190",
+      "xProd": "SAB FRANCIS SUAVE 85G AMARELO(FLOR ACACI - CX"
+    },
+    "7891176117462": {
+      "NCM": "34011190",
+      "xProd": "SAB FRANCIS SUAVE 85G ROSA(GERANIO) - UN/85G"
+    },
+    "7509546659091": {
+      "NCM": "34011190",
+      "xProd": "SAB PALMOLIVE SUAVE 150G S.PURIF CARVAO - CX"
+    },
+    "7896023408212": {
+      "NCM": "34011190",
+      "xProd": "SAB LIVY SUAVE 85G SALMAO/KARITE - UN/85G"
+    },
+    "7896023408229": {
+      "NCM": "34011190",
+      "xProd": "SAB LIVY SUAVE 85G VERDE/ERVA-DOCE - UN/85G"
+    },
+    "7898582291748": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE B.PHYTUS 100ML SPRAY - UN/100ML"
+    },
+    "7898958119683": {
+      "NCM": "38085929",
+      "xProd": "REPELENTE REPMAX 200ML SPRAY - CX"
+    },
+    "7896902208278": {
+      "NCM": "33059000",
+      "xProd": "DESCOLORANTE PO FARMAX 20G CAMOMILA - CX"
+    },
+    "7894164005239": {
+      "NCM": "30049099",
+      "xProd": "LAXANTE BISN RETAL FLEX-ENEMA 130ML AIRE - CX"
+    },
+    "7894164005925": {
+      "NCM": "21069030",
+      "xProd": "LACTULOSE 120ML AMEIXA LACTULAXY AIRELA - CX"
+    },
+    "7894164008636": {
+      "NCM": "21069030",
+      "xProd": "COLAGENO CONDROFLAN ARTIX CX 30 AIRELA - CX"
+    },
+    "7896920303009": {
+      "NCM": "21069090",
+      "xProd": "VITAMINA ECOFITUS CX 60 NEOMAG - CX"
+    },
+    "7896902208599": {
+      "NCM": "33059000",
+      "xProd": "DESCOLORANTE PO FARMAX 08G QUERATINA - CX"
+    },
+    "7897947612358": {
+      "NCM": "21069030",
+      "xProd": "LAVITAN MEMORIA CX 60 CIMED - CXT/60UN"
+    },
+    "7894164011971": {
+      "NCM": "21069030",
+      "xProd": "CLORETO MAGNESIO CX 60 AIRELA TRE MAG - CXT/60"
+    },
+    "7898758870159": {
+      "NCM": "21069030",
+      "xProd": "VITAMINA PREVENT CX 30 VISION - CXT/30"
+    },
+    "7894164008049": {
+      "NCM": "21069030",
+      "xProd": "VITAMINA C 1G EFER CX 16 VITAXONFOR AIRE - CXT/16UN"
+    },
+    "7898601065749": {
+      "NCM": "39123119",
+      "xProd": "BOLSA TERMICA KESTAL QUENTE/FRIO -M- - CX"
+    },
+    "7896902207042": {
+      "NCM": "33059000",
+      "xProd": "DESCOLORANTE PO SUNLESS 50G D.PELOS - CX"
+    },
+    "7896090611744": {
+      "NCM": "30049029",
+      "xProd": "SONRISAL SH 02 LARANJA CXT 30 - CXT/30UN"
+    },
+    "7896015520533": {
+      "NCM": "30049099",
+      "xProd": "SONRISAL COMP CXT/30SH TRAD. - CXT/30SH"
+    },
+    "7891000347942": {
+      "NCM": "18069000",
+      "xProd": "ACHOC PO NESQUIK LTA 200G MORANGO - LTA/200G"
+    },
+    "7895296284042": {
+      "NCM": "30049099",
+      "xProd": "POMADA DERM NISTA+OXID ZINCO 60G GEN NOV - CX"
+    },
+    "7894164005734": {
+      "NCM": "30049099",
+      "xProd": "LEITE MAGNESIA AIRELA 100ML HORTELA MAG - FRC/1UN"
+    },
+    "7894164005727": {
+      "NCM": "30049099",
+      "xProd": "LEITE MAGNESIA AIRELA 100ML TRADICIONAL - FRC/ 1 UN"
+    },
+    "7897947609891": {
+      "NCM": "21069030",
+      "xProd": "LAVITAN AZ CX 90 CIMED - CXT/90UN"
+    },
+    "7897947601420": {
+      "NCM": "21069030",
+      "xProd": "LAVITAN 50+MULHER CX 60 CIMED - CXT/60"
+    },
+    "7897947600928": {
+      "NCM": "21069030",
+      "xProd": "VITAMINA LAVITAN CX 60 ADT 50+CIMED - CX"
+    },
+    "7897947612891": {
+      "NCM": "21069030",
+      "xProd": "LAVITAN CAB+UNHAS CX 60 CIMED - CX"
+    },
+    "7897947601871": {
+      "NCM": "21069030",
+      "xProd": "LAVITAN COLAGENO HID. PO 300G HIB/LIM C - PTE/300G"
+    },
+    "7898629561421": {
+      "NCM": "21069030",
+      "xProd": "SUPL.MAX T.WHEY 3W+SAB PO 900G COOK/CRE - PT/900G"
+    },
+    "7908512704382": {
+      "NCM": "33072090",
+      "xProd": "GEL MASSAGEM BIO 150G FISIOFORT GOLD - UN/150G"
+    },
+    "7896806700069": {
+      "NCM": "33049100",
+      "xProd": "TALCO BARLA 80G PEQUENO - UN/80G"
+    },
+    "7896806700076": {
+      "NCM": "33049100",
+      "xProd": "TALCO BARLA 140G GRANDE - CX"
+    },
+    "7897947612907": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE XO INSETO 200ML SPRAY FAMILIA - CX"
+    },
+    "7896104993545": {
+      "NCM": "56012190",
+      "xProd": "COTONETE MILI PTE 150 AZUL - CX"
+    },
+    "7899941202849": {
+      "NCM": "21069030",
+      "xProd": "SUPL.MAX HORUS PO 150G CITRUS - PTE/150G"
+    },
+    "7899941202726": {
+      "NCM": "21069030",
+      "xProd": "SUPL.MAX EGIDE PO 150G FRUTAS VERMELHAS - PTE/150G"
+    },
+    "7894164000210": {
+      "NCM": "21069030",
+      "xProd": "COENZIMA Q10 100MG PO 60 AIRELA - PTE/60"
+    },
+    "7896006299769": {
+      "NCM": "30049069",
+      "xProd": "FINASTERIDA 1MG CX 30 GEN U.QUIMIC - CX"
+    },
+    "7898031310303": {
+      "NCM": "30039099",
+      "xProd": "BICARBONATO SODIO 100G UNIPHAR - CX"
+    },
+    "7896714257594": {
+      "NCM": "30049037",
+      "xProd": "RELAXANTE TORSILAX CXT/25CR NEO QUIMICA - CXT/25CR"
+    },
+    "7894164009510": {
+      "NCM": "30039039",
+      "xProd": "SORO HIDRALI SAIS CX 04 NATURAL - UN"
+    },
+    "7894164009503": {
+      "NCM": "30039039",
+      "xProd": "SORO HIDRALI SAIS CX 04 AG.COCO - UN"
+    },
+    "7896331704808": {
+      "NCM": "30039099",
+      "xProd": "LAXANTE GTS 30 ML RAPILAX HERTZ - CX"
+    },
+    "7896714295824": {
+      "NCM": "21069030",
+      "xProd": "PROBIOTICO NEOGERMINA FLORA CX 12CPS - CXT/12"
+    },
+    "7896523210773": {
+      "NCM": "30039077",
+      "xProd": "ENALAPRIL 20MG CX 30 GEN CIMED - CX"
+    },
+    "7898758870067": {
+      "NCM": "21069030",
+      "xProd": "VITAMINA C+ARG CX 10 PREVENT - CX"
+    },
+    "7896227650158": {
+      "NCM": "96190000",
+      "xProd": "ABS COTTONBABY C/ABAS PT 08 - CX"
+    },
+    "7896104996492": {
+      "NCM": "96190000",
+      "xProd": "ABS MILI P.DIARIO S/ABAS PT 15 S/PERFUM - CX"
+    },
+    "7896104992777": {
+      "NCM": "96190000",
+      "xProd": "ABS MILI NOTURNO C/ABAS PT 32 SUAVE - FR"
+    },
+    "7896104992494": {
+      "NCM": "96190000",
+      "xProd": "ABS MILI P.TOTAL C/ABAS PT 32 SUAVE - CX"
+    },
+    "7896104993934": {
+      "NCM": "96190000",
+      "xProd": "ABS MILI P.TOTAL S/ABAS PT 08 SUAVE - CX"
+    },
+    "7896007544059": {
+      "NCM": "96190000",
+      "xProd": "ABS INT. GEL T.PROT C/ABAS PT 32 SEC - CX"
+    },
+    "7500435190633": {
+      "NCM": "96190000",
+      "xProd": "ABS ALWAYS SUPER PROT C/ABAS PT L10P08 - CX"
+    },
+    "7500435127226": {
+      "NCM": "96190000",
+      "xProd": "ABS ALWAYS SUPER PROT C/ABAS PT 08 SECA - CX"
+    },
+    "7896007540624": {
+      "NCM": "96190000",
+      "xProd": "ABS INT. GEL NORMAL S/ABAS PT 08 SEC - CX"
+    },
+    "7896007540617": {
+      "NCM": "96190000",
+      "xProd": "ABS INT. GEL NORMAL C/ABAS PT 08 SUA - CX"
+    },
+    "7898566789476": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 04 QUIABO - CX"
+    },
+    "7898566788943": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 04 NUTRECOCO - CX"
+    },
+    "7908512701275": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIO INSTINTO CXT 04 LISO C/FORCA - UN"
+    },
+    "7898566788639": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 04 CHUVA/VERNIZ - KIT/4UN"
+    },
+    "7908512705488": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 02 MAMONA/BABOSA - KIT/02"
+    },
+    "7908512705327": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 02 OLEO ARGAN - KIT/02"
+    },
+    "7908512705440": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 02 CACHEAMOS - KIT/02"
+    },
+    "7908512705433": {
+      "NCM": "33059000",
+      "xProd": "KIT CAP.BIOINSTINTO CXT 02 CAVALO RACA - KIT/02"
+    },
+    "7891024026472": {
+      "NCM": "34012010",
+      "xProd": "SAB LIQ PALMOLIVE NAT.250ML SEGRETO S.TU - CX"
+    },
+    "7509546665801": {
+      "NCM": "34012010",
+      "xProd": "SAB LIQ PALMOLIVE 250ML LUMINOUS OILS RO - CX"
+    },
+    "7908103707341": {
+      "NCM": "39241000",
+      "xProd": "PRATO INFANTIL BUBA R-10734 03PCS LEAO - CX"
+    },
+    "7896902206540": {
+      "NCM": "33059000",
+      "xProd": "DESCOLORANTE PO SUNLESS 20G D.PELOS - SCT/20G"
+    },
+    "7897947601918": {
+      "NCM": "30067000",
+      "xProd": "GEL LUBRIFICANTE K-MED 50G CHUPE FRUTTI - UN/50G"
+    },
+    "7896902208209": {
+      "NCM": "33059000",
+      "xProd": "DESCOLORANTE PO FARMAX 20G QUERATINA - CX"
+    },
+    "7896104992890": {
+      "NCM": "56012190",
+      "xProd": "COTONETE MILI CXT 75 BRANCO - CX"
+    },
+    "7894650939925": {
+      "NCM": "38089119",
+      "xProd": "INSET RAID PROTEC ELET 45N FAMILYY 32.9M - UN"
+    },
+    "7891035990984": {
+      "NCM": "38089119",
+      "xProd": "INSET SBP ELET. 45NOITES REFIL/APARELHO - CX"
+    },
+    "7891033545988": {
+      "NCM": "33059000",
+      "xProd": "KIT SH+COND SIAGE 375ML CICA THERAPY - UN/375ML"
+    },
+    "7896714214764": {
+      "NCM": "30049069",
+      "xProd": "DIPIRONA CAFI CXT/25CR NEO(DORONA) - CXT/25CR"
+    },
+    "7896006201779": {
+      "NCM": "30043999",
+      "xProd": "PREDNISOLONA 60ML GEN U.QUIMICA - FRC/60ML"
+    },
+    "7896006217305": {
+      "NCM": "30041012",
+      "xProd": "AMOXICILINA 250MG 150ML GEN U.QUIM - CX"
+    },
+    "7899095230224": {
+      "NCM": "30049069",
+      "xProd": "DIPIRONA 100ML GEN GEOLAB - UN"
+    },
+    "7899095200371": {
+      "NCM": "30049029",
+      "xProd": "HIDROXIDO ALUMINIO 240ML GEOLAB STOMA - CX"
+    },
+    "7897595620637": {
+      "NCM": "30049059",
+      "xProd": "ROSUVASTATINA 20MG CX 30 GEN SANDOZ - CX"
+    },
+    "7898569765262": {
+      "NCM": "30049079",
+      "xProd": "NITAZOXANIDA 500MG CX 06 ALTHAIA IROSE - CXT/06"
+    },
+    "7899095200425": {
+      "NCM": "30049069",
+      "xProd": "DEXCLORFENIRAMINA 2MG CX 20 GEOLAB HYST - CXT/20UN"
+    },
+    "7891317427542": {
+      "NCM": "30049069",
+      "xProd": "LOSARTANA POTAS 50MG CX 30 GEN EUR - CX"
+    },
+    "7896006202226": {
+      "NCM": "30049099",
+      "xProd": "POMADA DERM NEOM+BAC.10G U.QUIMICA FERID - CXT/17UN"
+    },
+    "7891058005726": {
+      "NCM": "30049069",
+      "xProd": "DIPIRONA COMP 500MG CXT10 GEN MEDLEY - CXT/10"
+    },
+    "7896523208770": {
+      "NCM": "30039079",
+      "xProd": "FLUCONAZOL 150MG CX 02 GEN CIMED - CX"
+    },
+    "7896112105596": {
+      "NCM": "30049099",
+      "xProd": "NISTATINA 50ML TEUTO CANDITRAT - UN"
+    },
+    "7896112101710": {
+      "NCM": "30042099",
+      "xProd": "AMOXIC+CLAV+POTA 875+125MG CXT 14 GEN TE - CX"
+    },
+    "7896112166221": {
+      "NCM": "30049049",
+      "xProd": "NITROFURANTOINA 100MG CX 28 GEN TEUTO - CX"
+    },
+    "7896714236148": {
+      "NCM": "30049062",
+      "xProd": "LOPERAMIDA CX 12 NEO MAGNOSTASE - CXT/12UN"
+    },
+    "7895296257015": {
+      "NCM": "30049099",
+      "xProd": "CLOPIDOGREL 75MG CX 28 MULT CLOPIPLAX - CXT/ 28 UN"
+    },
+    "7899095221284": {
+      "NCM": "30049045",
+      "xProd": "ANTIGRIPAL RESFRILIV PO CXT/50 HORTELA/G - CXT/50SH"
+    },
+    "7899095221338": {
+      "NCM": "30049045",
+      "xProd": "NTIGRIPAL RESFRILIV PO CXT/50U MEL/LIM G - CXT/50UN"
+    },
+    "7897848500655": {
+      "NCM": "30049099",
+      "xProd": "CREME VAG MICONAZOL 80G NATIVITA - CXT/ 80G"
+    },
+    "742832304832": {
+      "NCM": "30042099",
+      "xProd": "CREME VAG NISTATINA 60G GEN GREENPHARMA - UN/60G"
+    },
+    "7896714254784": {
+      "NCM": "30049045",
+      "xProd": "ANTIGRIPAL NEOLEFRIN 60ML NEO QUIMICA - UN"
+    },
+    "7897917000543": {
+      "NCM": "30049099",
+      "xProd": "POMADA DERM NEOMICINA 20G BELFAR POMICIN - CX"
+    },
+    "7896004765709": {
+      "NCM": "30043999",
+      "xProd": "SOLUCAO NASAL BUDESONID 64MCG 120DOSE - CX"
+    },
+    "7896112128915": {
+      "NCM": "30049066",
+      "xProd": "METRONIDAZOL 400MG CX 24 TEUTO HELMIZOL - CXT/ 24 UN"
+    },
+    "7898259490726": {
+      "NCM": "90183111",
+      "xProd": "SERINGA 10ML C/AGULHA 7X25 SR - UN/1UN"
+    },
+    "7894488000064": {
+      "NCM": "52030000",
+      "xProd": "ALGODAO FLOC BOLA 25G -PT- BRANCO - PCT/25G"
+    },
+    "7899898601481": {
+      "NCM": "21069030",
+      "xProd": "CALCIO B12 CALCIOVITAL 250ML ROSA NATULA - CXT/ 1 FRC"
+    },
+    "7899898601061": {
+      "NCM": "21069030",
+      "xProd": "CALCIO B12 CALCIOVITAL 250ML AZUL NATULA - CXT/ 1 FRC"
+    },
+    "7896004812168": {
+      "NCM": "30049099",
+      "xProd": "EXPEC 120ML LEGRAND - FRC/120ML"
+    },
+    "7897947601161": {
+      "NCM": "21069030",
+      "xProd": "LAVITAN MELATONIA CX 90 CIMED MARACUJA - CX"
+    },
+    "7898724830262": {
+      "NCM": "21069030",
+      "xProd": "MELATONINA+LTRIPTOFANO CX 60 BIOCEUTICA - UN"
+    },
+    "7908804700030": {
+      "NCM": "21069030",
+      "xProd": "POWER MILL CX 90 A-Z LV3PG2 PREVENT PH - CXT/90"
+    },
+    "7899470805726": {
+      "NCM": "30049099",
+      "xProd": "POMADA DERM BABY-D 45G MENINO NATULAB - CXT/45G"
+    },
+    "602883920545": {
+      "NCM": "63079010",
+      "xProd": "MASCARA CIR.OLIMED CX 50 ROSA - CXT/50UN"
+    },
+    "602883920569": {
+      "NCM": "63079010",
+      "xProd": "MASCARA CIR.OLIMED CX 50 PRETO - CXT/50UN"
+    },
+    "7896006277408": {
+      "NCM": "30049099",
+      "xProd": "OLEO MINERAL 100ML U.QUIMICA - CX"
+    },
+    "7898767760564": {
+      "NCM": "21069030",
+      "xProd": "OLEO S.ABOBORA+VIT E CX 60 QUALYNUTRI - CXT/60"
+    },
+    "7898939183405": {
+      "NCM": "33072090",
+      "xProd": "CREME MAOS E PES BIO 240G S/CARNEIRO ARG - UN"
+    },
+    "7908512703828": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE BIO INSTINTO 200ML SPRAY - UN/200ML"
+    },
+    "7898639302083": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE SAI INSETO 200ML SPRAY FAMILY - UN"
+    },
+    "7896902211896": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE FARMAX MOSKITOFF 100ML LOCAO - CX"
+    },
+    "7896902212251": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE FARMAX MOSKITOFF 200ML LOCAO - CX"
+    },
+    "7896902212558": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE FARMAX MOSKITOFF 200ML SPRAY - CX"
+    },
+    "7898277710370": {
+      "NCM": "15219019",
+      "xProd": "APIS FRESH SPRAY 35ML MEL/GENGIBRE ARTE - FRC/1UN"
+    },
+    "7898031310891": {
+      "NCM": "33071000",
+      "xProd": "PEDRA HUME 30ML UNIPHAR SPRAY - FRC/30ML"
+    },
+    "7896902207097": {
+      "NCM": "38089199",
+      "xProd": "REPELENTE FARMAX MOSKITOFF 120ML LOCAO - UN/1 UN"
+    },
+    "7898961775012": {
+      "NCM": "56012190",
+      "xProd": "COTONETE NATHY CX 75 - CXT/75"
+    },
+    "7897917003841": {
+      "NCM": "30049026",
+      "xProd": "CALICIDA SOL KALICID 10ML BELFAR - FR/1UN"
+    },
+    "7896181901019": {
+      "NCM": "30049069",
+      "xProd": "DIPIRONA 500MG"
+    }
+  }
+}

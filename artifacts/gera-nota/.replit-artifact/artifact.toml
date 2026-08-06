@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "GeraNota"
+description = "GeraNota is an internal tool for generating NF-e (model 55) XML files for merchandise entries at pharmacy stores in Piauí, Brazil. It parses NFC-e HTML from the SEFAZ portal, manages store (loja) and supplier (fornecedor) data, and builds compliant NF-e XML with automatic tax rule application (ICMS, PIS, COFINS, IBS/CBS). Used by internal staff to create fiscal entry documents from supplier invoices."
+version = "1.0.0"
+id = "artifacts/gera-nota"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22313
+
+[services.development]
+run = "pnpm --filter @workspace/gera-nota run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/gera-nota", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/gera-nota/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22313"
+BASE_PATH = "/"
