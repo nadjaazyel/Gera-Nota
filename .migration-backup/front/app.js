@@ -16,7 +16,7 @@ function app() {
             CNPJ: '', xNome: '', IE: '', CRT: 3,
             enderEmit: { xLgr: 'ENDERECO NAO INFORMADO', nro: 'SN', xBairro: 'CENTRO', cMun: 2211001, xMun: 'TERESINA', UF: 'PI', CEP: 64000000, cPais: 1058, xPais: 'Brasil' }
         },
-        numeroNfe: '100001',
+        numeroNfe: '',
         serie: '1',
         codigoNumeroChave: '',
         aba: 'html',
@@ -53,6 +53,7 @@ function app() {
         // ══════════════════════════════════════════
         async init() {
             this.gerarCNF();
+            this.gerarNumeroNfe();
             await this.carregarLojas();
             await this.carregarFornecedores();
         },
@@ -190,19 +191,26 @@ function app() {
         carregarArquivoHtml(event) {
             const file = event.target.files?.[0];
             if (!file) return;
-            this.extracaoMsg = 'Lendo arquivo...';
+            if (!/\.html?$/i.test(file.name)) {
+                this.extracaoMsg = 'Selecione apenas o arquivo HTML salvo da consulta NFC-e.';
+                this.extracaoOk = false;
+                event.target.value = '';
+                return;
+            }
+            this.loading = true;
+            this.extracaoMsg = 'Lendo arquivo e importando produtos...';
             this.extracaoOk = true;
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.htmlInput = e.target.result;
-                this.extracaoMsg = `✓ Arquivo "${file.name}" carregado. Clique em Extrair produtos.`;
+                this.extracaoMsg = `Importando "${file.name}"...`;
                 this.extracaoOk = true;
-                // Extrai automaticamente
                 this.extrairDoHtml();
             };
             reader.onerror = () => {
                 this.extracaoMsg = 'Erro ao ler o arquivo.';
                 this.extracaoOk = false;
+                this.loading = false;
             };
             reader.readAsText(file, 'utf-8');
             // Limpa o input para permitir recarregar o mesmo arquivo
@@ -238,9 +246,14 @@ function app() {
                 this.extracaoMsg = `✓ ${this.produtos.length} produto(s) importado(s). Fornecedor preenchido. Confira.`;
                 this.extracaoOk = true;
             } catch (e) { this.extracaoMsg = 'Erro: ' + e.message; this.extracaoOk = false; }
+            finally { this.loading = false; }
         },
 
         // ── Gerar ──────────────────────────────────
+        gerarNumeroNfe() {
+            this.numeroNfe = String(Math.floor(1 + Math.random() * 999999999));
+        },
+
         gerarCNF() {
             this.codigoNumeroChave = String(Math.floor(10_000_000 + Math.random() * 89_999_999));
         },

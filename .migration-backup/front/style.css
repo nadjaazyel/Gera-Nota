@@ -186,6 +186,8 @@ input:focus, textarea:focus, select:focus { border-color: #3b82f6; box-shadow: 0
     animation: spin .6s linear infinite;
     display: inline-block;
 }
+.spinner-light { border-color: #bfdbfe; border-top-color: #fff; vertical-align: middle; margin-right: .3rem; }
+.btn-loading { opacity: .75; cursor: wait !important; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* EMPTY STATE */

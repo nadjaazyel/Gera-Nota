@@ -101,7 +101,10 @@
             <div class="grid-3">
                 <div>
                     <label>Número *</label>
-                    <input type="text" x-model="numeroNfe" placeholder="100001" id="inp-numero">
+                    <div style="display:flex;gap:.5rem">
+                        <input type="text" x-model="numeroNfe" placeholder="Número aleatório" id="inp-numero">
+                        <button type="button" class="btn btn-ghost" @click="gerarNumeroNfe()" title="Gerar novo número">↻</button>
+                    </div>
                 </div>
                 <div>
                     <label>Série</label>
@@ -125,9 +128,10 @@
                     <span class="badge badge-blue" x-text="produtos.length + ' item(s)'"></span>
                 </div>
                 <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-                    <label class="btn btn-primary btn-sm" style="cursor:pointer;margin:0">
-                        📂 Importar Arquivo HTML
-                        <input type="file" accept=".html,.htm" style="display:none" @change="carregarArquivoHtml($event)" id="inp-arquivo-html">
+                    <label class="btn btn-primary btn-sm" :class="loading && 'btn-loading'" style="cursor:pointer;margin:0">
+                        <span x-show="!loading">📂 Importar Arquivo HTML</span>
+                        <span x-show="loading"><span class="spinner spinner-light"></span> Importando...</span>
+                        <input type="file" accept=".html,.htm" style="display:none" :disabled="loading" @change="carregarArquivoHtml($event)" id="inp-arquivo-html">
                     </label>
                     <button type="button" class="btn btn-success btn-sm" @click="addProduto()">+ Inserir Manual</button>
                 </div>
@@ -138,7 +142,7 @@
             <div x-show="!produtos.length" class="empty">
                 <div class="empty-icon">📦</div>
                 Nenhum produto.<br>
-                <small style="color:#64748b">Importe o arquivo salvo da SEFAZ (Ctrl+S) ou insira manualmente.</small>
+                <small style="color:#64748b">Importe somente o arquivo <b>.html</b> salvo da SEFAZ (Ctrl+S). A pasta criada junto não precisa ser importada.</small>
             </div>
 
             <div x-show="produtos.length" style="overflow-x:auto">
