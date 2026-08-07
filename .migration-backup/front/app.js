@@ -29,6 +29,7 @@ function app() {
         resultado: null,
         extracaoMsg: '',
         extracaoOk: false,
+        arrastandoArquivo: false,
 
         // ── Autocomplete fornecedor ────────────────
         acSugestoes: [],
@@ -189,12 +190,20 @@ function app() {
         removeProduto(idx) { this.produtos.splice(idx, 1); },
 
         carregarArquivoHtml(event) {
-            const file = event.target.files?.[0];
+            this.importarArquivoHtml(event.target.files?.[0]);
+            event.target.value = '';
+        },
+
+        soltarArquivoHtml(event) {
+            this.arrastandoArquivo = false;
+            this.importarArquivoHtml(event.dataTransfer?.files?.[0]);
+        },
+
+        importarArquivoHtml(file) {
             if (!file) return;
             if (!/\.html?$/i.test(file.name)) {
                 this.extracaoMsg = 'Selecione apenas o arquivo HTML salvo da consulta NFC-e.';
                 this.extracaoOk = false;
-                event.target.value = '';
                 return;
             }
             this.loading = true;
@@ -213,8 +222,6 @@ function app() {
                 this.loading = false;
             };
             reader.readAsText(file, 'utf-8');
-            // Limpa o input para permitir recarregar o mesmo arquivo
-            event.target.value = '';
         },
 
         async extrairDoHtml() {

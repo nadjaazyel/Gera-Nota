@@ -137,6 +137,17 @@
                 </div>
             </div>
 
+            <div class="dropzone"
+                :class="{ 'dropzone-active': arrastandoArquivo, 'dropzone-loading': loading }"
+                @dragenter.prevent="!loading && (arrastandoArquivo = true)"
+                @dragover.prevent
+                @dragleave.prevent="arrastandoArquivo = false"
+                @drop.prevent="!loading && soltarArquivoHtml($event)">
+                <span x-show="!loading">📥 Arraste e solte aqui o arquivo <b>.html</b> da consulta NFC-e</span>
+                <span x-show="loading"><span class="spinner"></span> Lendo e importando o arquivo…</span>
+                <small x-show="!loading">Ou use o botão “Importar Arquivo HTML” acima. Não arraste a pasta criada junto.</small>
+            </div>
+
             <div x-show="extracaoMsg" x-text="extracaoMsg" :class="extracaoOk?'alert-success':'alert-error'" class="alert" style="margin-bottom:1rem"></div>
 
             <div x-show="!produtos.length" class="empty">

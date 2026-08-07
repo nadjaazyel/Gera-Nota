@@ -177,6 +177,22 @@ input:focus, textarea:focus, select:focus { border-color: #3b82f6; box-shadow: 0
 .autocomplete-item:hover { background: #eff6ff; }
 .autocomplete-item .ac-cnpj { font-size: .7rem; color: #64748b; }
 
+/* ARRASTAR E SOLTAR */
+.dropzone {
+    border: 2px dashed #93c5fd;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 1rem;
+    text-align: center;
+    font-size: .875rem;
+    transition: .15s ease;
+    margin-bottom: 1rem;
+}
+.dropzone small { display: block; color: #64748b; margin-top: .35rem; font-size: .75rem; }
+.dropzone-active { border-color: #2563eb; background: #dbeafe; transform: scale(1.01); }
+.dropzone-loading { opacity: .7; cursor: wait; }
+
 /* SPINNER */
 .spinner {
     width: 18px; height: 18px;
