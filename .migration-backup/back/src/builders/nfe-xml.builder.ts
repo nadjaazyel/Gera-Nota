@@ -55,7 +55,7 @@ export function buildNFeXml(args: BuildArgs): {
     // Calcula impostos por item
     const itens: ItemCalculado[] = args.produtos.map((p) => {
         const tax = resolveTax({
-            NCM: p.NCM,
+            NCM: p.NCM ?? "30049069",
             CEST: p.CEST,
             override: {
                 CST_ICMS: p.CST_ICMS,
@@ -211,7 +211,7 @@ export function buildNFeXml(args: BuildArgs): {
         prod.ele("cProd").txt(it.input.cProd ?? String(idx + 1)).up();
         prod.ele("cEAN").txt(it.input.cEAN || "SEM GTIN").up();
         prod.ele("xProd").txt(it.input.xProd).up();
-        prod.ele("NCM").txt(it.input.NCM).up();
+        prod.ele("NCM").txt(it.input.NCM ?? "30049069").up();
         if (it.input.CEST) prod.ele("CEST").txt(it.input.CEST).up();
         prod.ele("CFOP").txt(it.input.CFOP ?? it.tax.CFOP_saida).up();
         prod.ele("uCom").txt(it.input.uCom).up();

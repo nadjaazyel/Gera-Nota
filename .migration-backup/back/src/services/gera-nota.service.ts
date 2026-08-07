@@ -24,7 +24,7 @@ export async function gerarNota(input: GerarNotaInput): Promise<{
         if (input.html) {
             const extraidos = parseNfceHtml(input.html);
             produtos.push(
-                ...extraidos.map<ProdutoInput>((p) => ({
+                ...extraidos.produtos.map<ProdutoInput>((p) => ({
                     xProd: p.xProd,
                     cEAN: p.cEAN,
                     NCM: p.NCM,
