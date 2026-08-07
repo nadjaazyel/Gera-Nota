@@ -30,6 +30,7 @@ function app() {
         extracaoMsg: '',
         extracaoOk: false,
         arrastandoArquivo: false,
+        ajudaImportacaoAberta: false,
 
         // ── Autocomplete fornecedor ────────────────
         acSugestoes: [],
