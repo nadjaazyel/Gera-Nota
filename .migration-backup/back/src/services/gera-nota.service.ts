@@ -70,13 +70,21 @@ export async function gerarNota(input: GerarNotaInput): Promise<{
         produtos,
     });
 
-    const dir = path.resolve(__dirname, "../../arquivos");
-    await fs.mkdir(dir, { recursive: true });
-    const arquivo = path.join(
-        dir,
-        `nfe-${input.numeroNfe}-loja${input.loja}.xml`
-    );
-    await fs.writeFile(arquivo, xml, "utf-8");
+    const arquivoNome = `nfe-${input.numeroNfe}-loja${input.loja}.xml`;
+    const dir = process.env.VERCEL === "1"
+        ? "/tmp/gera-nota"
+        : path.resolve(__dirname, "../../arquivos");
+    const arquivo = path.join(dir, arquivoNome);
+
+    // O download acontece no navegador via resposta HTTP. Em ambientes serverless
+    // (Vercel), a gravação local é apenas uma cópia temporária e não pode bloquear
+    // a geração do XML.
+    try {
+        await fs.mkdir(dir, { recursive: true });
+        await fs.writeFile(arquivo, xml, "utf-8");
+    } catch (error) {
+        console.warn("Não foi possível salvar cópia local do XML:", error);
+    }
 
     return { xml, chave, cDV, arquivo, totalProdutos: produtos.length };
 }

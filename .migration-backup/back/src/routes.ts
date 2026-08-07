@@ -23,6 +23,12 @@ export function buildRouter(): Router {
     });
 
     // ===== Geração de NF-e =====
+    r.get("/gerar-nota", (_req, res) => {
+        res.status(405).json({
+            ok: false,
+            erro: "Use o botão “Gerar XML e baixar”. Esta rota aceita apenas requisições POST.",
+        });
+    });
     r.post("/gerar-nota", gerarNotaController);
 
     // ===== Extração de produtos do HTML =====
