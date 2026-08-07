@@ -49,11 +49,11 @@
         <div class="card">
             <div class="card-title">🏭 2. Quem vendeu para você?</div>
             <div class="grid-3" style="align-items:end">
-                <!-- CNPJ + autocomplete -->
-                <div class="autocomplete-wrap">
-                    <label>CNPJ do fornecedor *</label>
-                    <input type="text" x-model="emit.CNPJ" @input="buscarFornecedorPorCNPJ()" @blur="setTimeout(()=>acAberto=false,200)"
-                        placeholder="14 dígitos" maxlength="14" id="inp-cnpj">
+                <!-- Razão social + autocomplete -->
+                <div class="autocomplete-wrap fornecedor-nome">
+                    <label>Razão Social *</label>
+                    <input type="text" x-model="emit.xNome" @input="buscarFornecedorPorNome()" @focus="buscarFornecedorPorNome()" @blur="setTimeout(()=>acAberto=false,200)"
+                        placeholder="FORNECEDOR LTDA" id="inp-xnome">
                     <div class="autocomplete-list" x-show="acAberto">
                         <template x-for="f in acSugestoes" :key="f.id">
                             <div class="autocomplete-item" @mousedown="preencherFornecedor(f)">
@@ -63,9 +63,19 @@
                         </template>
                     </div>
                 </div>
-                <div style="grid-column:span 2">
-                    <label>Razão Social *</label>
-                    <input type="text" x-model="emit.xNome" placeholder="FORNECEDOR LTDA" id="inp-xnome">
+                <!-- CNPJ + autocomplete -->
+                <div class="autocomplete-wrap">
+                    <label>CNPJ do fornecedor *</label>
+                    <input type="text" x-model="emit.CNPJ" @input="buscarFornecedorPorCNPJ()" @focus="buscarFornecedorPorCNPJ()" @blur="setTimeout(()=>acAberto=false,200)"
+                        placeholder="14 dígitos" maxlength="14" id="inp-cnpj">
+                    <div class="autocomplete-list" x-show="acAberto">
+                        <template x-for="f in acSugestoes" :key="f.id">
+                            <div class="autocomplete-item" @mousedown="preencherFornecedor(f)">
+                                <div x-text="f.xNome"></div>
+                                <div class="ac-cnpj" x-text="f.CNPJ"></div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
                 <div>
                     <label>Inscrição Estadual</label>

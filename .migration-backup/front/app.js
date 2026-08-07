@@ -118,6 +118,13 @@ function app() {
             }
         },
 
+        buscarFornecedorPorNome() {
+            const nome = this.emit.xNome.trim().toLowerCase();
+            if (nome.length < 3) { this.acSugestoes = []; this.acAberto = false; return; }
+            this.acSugestoes = this.fornecedores.filter(f => f.xNome.toLowerCase().includes(nome));
+            this.acAberto = this.acSugestoes.length > 0;
+        },
+
         preencherFornecedor(f) {
             this.emit.CNPJ = f.CNPJ;
             this.emit.xNome = f.xNome;
