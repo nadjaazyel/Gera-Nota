@@ -133,11 +133,12 @@
                         <span x-show="loading"><span class="spinner spinner-light"></span> Importando...</span>
                         <input type="file" accept=".html,.htm" style="display:none" :disabled="loading" @change="carregarArquivoHtml($event)" id="inp-arquivo-html">
                     </label>
+                    <a class="btn btn-ghost btn-sm" href="#como-importar">❔ Como importar</a>
                     <button type="button" class="btn btn-success btn-sm" @click="addProduto()">+ Inserir Manual</button>
                 </div>
             </div>
 
-            <div class="dropzone"
+            <div x-show="!produtos.length" class="dropzone"
                 :class="{ 'dropzone-active': arrastandoArquivo, 'dropzone-loading': loading }"
                 @dragenter.prevent="!loading && (arrastandoArquivo = true)"
                 @dragover.prevent
@@ -191,6 +192,16 @@
                     </tfoot>
                 </table>
             </div>
+        </div>
+
+        <div id="como-importar" class="card tutorial-importacao">
+            <div class="card-title">❔ Como importar a consulta NFC-e</div>
+            <ol>
+                <li>Na página da consulta NFC-e, pressione <b>Ctrl + S</b> para salvar.</li>
+                <li>Escolha o arquivo salvo com final <b>.html</b>.</li>
+                <li>Não importe a pasta criada junto pelo navegador.</li>
+                <li>Arraste o arquivo para a área azul ou clique em <b>Importar Arquivo HTML</b>.</li>
+            </ol>
         </div>
 
         <!-- 6. Gerar -->
