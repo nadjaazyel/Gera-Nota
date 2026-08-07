@@ -10,7 +10,9 @@ interface EanNcmData {
 const isVercel = process.env.VERCEL === "1";
 const FILE = isVercel ? "/tmp/ean-ncm.json" : path.resolve(__dirname, "../../data/ean-ncm.json");
 
-const ORIGINAL_FILE = path.resolve(__dirname, "../../data/ean-ncm.json");
+const ORIGINAL_FILE = isVercel
+    ? path.resolve(process.cwd(), ".vercel-backend/data/ean-ncm.json")
+    : path.resolve(__dirname, "../../data/ean-ncm.json");
 
 let cache: EanNcmData | null = null;
 
